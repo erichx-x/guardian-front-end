@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Container, Card, Form, Button, InputGroup, ListGroup } from "react-bootstrap";
 import techniquesData from "../../data/techniques.json";
 import styles from "./page.module.css";
@@ -12,6 +13,7 @@ interface Technique {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [results, setResults] = useState<Technique[]>([]);
@@ -67,6 +69,14 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim().length >= 2) {
+      router.push(`/result?q=${encodeURIComponent(searchTerm.trim())}`);
+      setShowDropdown(false);
+    }
+  };
+
   return (
     <main style={{ padding: "2rem 0", height: "calc(100vh - 62px)" }}>
       <Container>
@@ -76,7 +86,7 @@ export default function Home() {
             <p className="text-muted mb-4">
               Esta é uma plataforma de para consultar técnicas de jiu-jitsu, ela ainda está na versão beta, por isso digite nome da técnica ou a categoria.
             </p>
-            <Form onSubmit={(e) => e.preventDefault()}>
+            <Form id="search-technique" onSubmit={handleSearchSubmit}>
               <div className="position-relative" ref={containerRef}>
                 <InputGroup>
                   <Form.Control
@@ -107,6 +117,7 @@ export default function Home() {
                             onClick={() => {
                               setSearchTerm(tech.technique);
                               setShowDropdown(false);
+                              router.push(`/detail?name=${encodeURIComponent(tech.technique)}`);
                             }}
                           >
                             <div className="d-flex flex-column">
