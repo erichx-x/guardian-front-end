@@ -1,0 +1,35 @@
+.autocompleteContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  margin-top: 0.25rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 0.375rem;
+  background-color: #fff;
+}
+
+.dropdownItem {
+  min-height: 44px;
+  /* Mobile touch target */
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdownItem:first-child {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
+.dropdownItem:last-child {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  border-bottom: 0;
+}

@@ -2,9 +2,9 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Container, Card, Form, InputGroup } from "react-bootstrap";
-import Link from "next/link";
+import { Container, Card } from "react-bootstrap";
 import techniquesData from "../../../data/techniques.json";
+import SearchForm from "../../components/SearchForm";
 
 function DetailContent() {
   const searchParams = useSearchParams();
@@ -25,23 +25,10 @@ function DetailContent() {
 
   return (
     <Container className="py-4">
-      {/* Campo de Busca que imita o header estrutural do Layout */}
+      {/* Campo de Busca independent component */}
       <Card className="mb-4 shadow-sm border-0">
         <Card.Body className="p-sm-3 p-2">
-          <InputGroup id="search-form">
-            <Form.Control
-              type="text"
-              placeholder="Digite o nome da técnica ou a categoria"
-              readOnly
-              className="bg-white border-end-0 border"
-              style={{ cursor: "pointer", boxShadow: "none" }}
-            />
-            <InputGroup.Text className="bg-white border-start-0 border" style={{ cursor: "pointer" }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-              </svg>
-            </InputGroup.Text>
-          </InputGroup>
+          <SearchForm />
         </Card.Body>
       </Card>
 
