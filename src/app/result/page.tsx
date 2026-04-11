@@ -69,7 +69,7 @@ function ResultContent() {
                       overflow: "hidden"
                     }}
                   >
-                    {tech.description || "Some quick example text to build on the card title and make up the bulk of the card's content."}
+                    {tech.description || "Descrição não disponível."}
                   </p>
 
                   <div className="mt-auto">
