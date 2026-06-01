@@ -1,14 +1,12 @@
-/* =========================================================
-   Admin – Técnicas Page
-   ========================================================= */
-
-/* ---- Page header ---- */
 .pageHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
+
 
 .pageTitle {
   font-size: 1.6rem;
@@ -17,13 +15,160 @@
   margin: 0 0 4px;
 }
 
+
 .pageSubtitle {
   font-size: 0.875rem;
   color: #6c757d;
   margin: 0;
 }
 
-/* ---- Form card ---- */
+
+.listCard {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+.listState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 56px 24px;
+  color: #6c757d;
+}
+
+
+.emptyIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+
+.emptyText {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+
+.techniqueName {
+  font-weight: 600;
+  color: #212529;
+}
+
+
+.categoryBadge {
+  background: #e0e9ff;
+  color: #1a4fcc;
+}
+
+
+.descriptionCell {
+  max-width: 340px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: #495057;
+}
+
+
+.rowActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #dee2e6;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  line-height: 1;
+}
+
+
+.iconBtn:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+
+.iconBtnDanger:hover {
+  background: #fff5f5;
+  border-color: #f1aeb5;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.15);
+}
+
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeOverlay 0.18s ease;
+}
+
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+.modalCard {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e9ecef;
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  animation: slideIn 0.2s ease;
+}
+
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+.modalClose {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+
+
+.modalClose:hover {
+  color: #212529;
+}
+
+
 .formCard {
   background: #fff;
   border-radius: 14px;
@@ -33,40 +178,45 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
+
 .formCardHeader {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px 28px 16px;
+  padding: 18px 24px 14px;
   border-bottom: 1px solid #f0f0f0;
   background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
 }
 
+
 .formCardIcon {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1;
 }
 
+
 .formCardTitle {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #212529;
   margin: 0;
 }
 
-/* ---- Form ---- */
+
 .form {
-  padding: 28px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
+
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
+
 
 .label {
   font-size: 0.84rem;
@@ -75,12 +225,13 @@
   letter-spacing: 0.2px;
 }
 
+
 .required {
   color: #dc3545;
   margin-left: 2px;
 }
 
-/* ---- Input ---- */
+
 .input {
   width: 100%;
   padding: 10px 14px;
@@ -94,19 +245,20 @@
   box-sizing: border-box;
 }
 
-.input::placeholder {
-  color: #adb5bd;
-}
+
+.input::placeholder { color: #adb5bd; }
+
 
 .input:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
 
-/* ---- Select ---- */
+
 .selectWrapper {
   position: relative;
 }
+
 
 .select {
   width: 100%;
@@ -124,10 +276,12 @@
   box-sizing: border-box;
 }
 
+
 .select:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
+
 
 .selectArrow {
   position: absolute;
@@ -139,7 +293,7 @@
   pointer-events: none;
 }
 
-/* ---- Textarea ---- */
+
 .textarea {
   width: 100%;
   padding: 10px 14px;
@@ -149,7 +303,7 @@
   color: #212529;
   background: #fff;
   resize: vertical;
-  min-height: 130px;
+  min-height: 110px;
   font-family: inherit;
   transition: border-color 0.18s, box-shadow 0.18s;
   outline: none;
@@ -157,16 +311,16 @@
   line-height: 1.55;
 }
 
-.textarea::placeholder {
-  color: #adb5bd;
-}
+
+.textarea::placeholder { color: #adb5bd; }
+
 
 .textarea:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
 
-/* ---- Feedback ---- */
+
 .feedback {
   display: flex;
   align-items: center;
@@ -178,11 +332,13 @@
   animation: fadeIn 0.2s ease;
 }
 
+
 .feedbackSuccess {
   background: #d1e7dd;
   color: #0a6640;
   border: 1px solid #a3cfbb;
 }
+
 
 .feedbackError {
   background: #f8d7da;
@@ -190,12 +346,13 @@
   border: 1px solid #f1aeb5;
 }
 
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- Action buttons ---- */
+
 .actions {
   display: flex;
   gap: 12px;
@@ -203,11 +360,12 @@
   padding-top: 4px;
 }
 
+
 .btnPrimary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 28px;
+  padding: 10px 24px;
   background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
   color: #fff;
   font-size: 0.9rem;
@@ -216,9 +374,11 @@
   border-radius: 8px;
   cursor: pointer;
   transition: opacity 0.18s, transform 0.15s, box-shadow 0.18s;
-  min-width: 110px;
+  min-width: 100px;
   justify-content: center;
+  white-space: nowrap;
 }
+
 
 .btnPrimary:hover:not(:disabled) {
   opacity: 0.9;
@@ -226,19 +386,15 @@
   box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-.btnPrimary:active:not(:disabled) {
-  transform: translateY(0);
-}
 
-.btnPrimary:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
+.btnPrimary:active:not(:disabled) { transform: translateY(0); }
+.btnPrimary:disabled { opacity: 0.65; cursor: not-allowed; }
+
 
 .btnSecondary {
   display: inline-flex;
   align-items: center;
-  padding: 10px 24px;
+  padding: 10px 20px;
   background: #fff;
   color: #495057;
   font-size: 0.9rem;
@@ -249,18 +405,45 @@
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
+
 .btnSecondary:hover:not(:disabled) {
   background: #f8f9fa;
   border-color: #adb5bd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
-.btnSecondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+
+.btnSecondary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+
+.btnDanger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.15s, box-shadow 0.18s;
+  min-width: 100px;
+  justify-content: center;
 }
 
-/* ---- Spinner ---- */
+
+.btnDanger:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+
+.btnDanger:disabled { opacity: 0.65; cursor: not-allowed; }
+
+ 
 .spinner {
   display: inline-block;
   width: 14px;
@@ -271,27 +454,16 @@
   animation: spin 0.65s linear infinite;
 }
 
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* ---- Responsive ---- */
+ 
 @media (max-width: 600px) {
-  .form {
-    padding: 20px 16px;
-  }
-
-  .formCardHeader {
-    padding: 16px 16px 14px;
-  }
-
-  .actions {
-    flex-direction: column-reverse;
-  }
-
-  .btnPrimary,
-  .btnSecondary {
-    width: 100%;
-    justify-content: center;
-  }
+  .form { padding: 18px 16px; }
+  .formCardHeader { padding: 14px 16px 12px; }
+  .descriptionCell { max-width: 140px; }
+  .actions { flex-direction: column-reverse; }
+  .btnPrimary, .btnSecondary, .btnDanger { width: 100%; justify-content: center; }
 }
