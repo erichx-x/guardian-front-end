@@ -1,0 +1,18 @@
+.autocompleteOverlay {
+  position: absolute;
+  z-index: 1050;
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.08);
+  margin-top: 0.5rem;
+}
+
+.autocompleteOverlay .list-group-item {
+  cursor: pointer;
+}
+
+.autocompleteOverlay .list-group-item:hover {
+  background: #f8f9fa;
+}

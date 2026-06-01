@@ -1,22 +1,46 @@
-"use client";
+'use client';
 
-import { Container, Card } from "react-bootstrap";
-import SearchForm from "../components/SearchForm";
+import Link from 'next/link';
+import { Container, Row, Col, Button, Card, Badge } from 'react-bootstrap';
+import PublicLayout from '@/layouts/PublicLayout';
+import SearchBar from '@/components/SearchBar';
+import { CATEGORIES } from '@/utils/constants';
 
 export default function Home() {
   return (
-    <main style={{ padding: "2rem 0", height: "calc(100vh - 62px)" }}>
-      <Container>
-        <Card className="border-0 shadow-sm mt-3">
-          <Card.Body className="p-4">
-            <h1 className="h3 mb-3 fw-normal text-primary">Bem-vindo ao Guardian</h1>
-            <p className="text-muted mb-4">
-              Esta é uma plataforma de para consultar técnicas de jiu-jitsu, ela ainda está na versão beta, por isso digite nome da técnica ou a categoria.
-            </p>
-            <SearchForm />
-          </Card.Body>
-        </Card>
-      </Container>
-    </main>
+    <PublicLayout>
+      <main className="py-5">
+        <Container>
+          <Row className="align-items-center gy-4">
+            <Col lg={6}>
+              <p className="text-uppercase text-primary fw-bold mb-2">Plataforma Guardian</p>
+              <h1 className="display-6 fw-bold mb-4">A forma mais rápida de encontrar técnicas de Jiu-Jitsu.</h1>
+              <p className="lead text-muted mb-4">
+                Busque técnicas por nome, categoria ou tag. Todos os dados estão mockados localmente para uma evolução segura e pronta para produção.
+              </p>
+              <SearchBar />
+            </Col>
+            <Col lg={6}>
+              <Card className="border-0 shadow-sm bg-soft p-4">
+                <h2 className="h5 mb-3">Categorias rápidas</h2>
+                <div className="d-flex flex-wrap gap-2">
+                  {CATEGORIES.map((category) => (
+                    <Button
+                      key={category}
+                      as={Link}
+                      href={`/result?category=${encodeURIComponent(category)}`}
+                      variant="outline-primary"
+                      className="text-nowrap"
+                    >
+                      {category}
+                    </Button>
+                  ))}
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </main>
+    </PublicLayout>
   );
 }

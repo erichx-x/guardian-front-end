@@ -1,0 +1,75 @@
+.adminWrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #0d6efd;
+  color: #fff;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarBrand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.sidebarLink,
+.sidebarLinkActive {
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidebarLink:hover,
+.sidebarLinkActive {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.topbarTitle {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.topbarUserStatus {
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  background: #e9ecef;
+  color: #495057;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.adminMain {
+  background: #f8f9fa;
+  padding: 1.5rem;
+}
+
+.adminContent {
+  min-height: calc(100vh - 120px);
+}
+
+.authFallback {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}

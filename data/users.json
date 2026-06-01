@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Administrador",
+    "email": "admin@guardian.com",
+    "role": "admin",
+    "status": "active",
+    "createdAt": "2025-01-15"
+  },
+  {
+    "id": "2",
+    "name": "Editor BJJ",
+    "email": "editor@guardian.com",
+    "role": "editor",
+    "status": "active",
+    "createdAt": "2025-03-20"
+  },
+  {
+    "id": "3",
+    "name": "Aluno",
+    "email": "aluno@guardian.com",
+    "role": "user",
+    "status": "active",
+    "createdAt": "2025-06-01"
+  }
+]

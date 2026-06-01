@@ -1,55 +1,63 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from './dashboard.module.css';
-import AdminSidebar from '@/components/AdminSidebar';
-import AdminTopbar from '@/components/AdminTopbar';
-import AdminContent from '@/components/AdminContent';
+import { Container, Card } from 'react-bootstrap';
+import { getTechniques } from '@/services/techniqueService';
+import { getUsers } from '@/services/userService';
+import AdminStatsCards from '@/components/AdminStatsCards';
+import EmptyState from '@/components/EmptyState';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function AdminPage() {
-  const router = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [techniqueCount, setTechniqueCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus !== 'true') {
-      router.push('/login');
-    } else {
-      setIsAuthorized(true);
+    async function loadData() {
+      try {
+        const techniquesResponse = await getTechniques({ limit: 1000 });
+        const users = await getUsers();
+        setTechniqueCount(techniquesResponse.total ?? techniquesResponse.data.length);
+        setUserCount(users.length);
+        setCategoryCount(new Set(techniquesResponse.data.map((tech) => tech.category)).size);
+      } catch {
+        setError('Não foi possível carregar os dados do painel.');
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    router.push('/login');
-  };
+    loadData();
+  }, []);
 
-  if (!isAuthorized) {
-    return (
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#f4f6f9',
-        }}
-      >
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading…</span>
-        </div>
-      </div>
-    );
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <EmptyState title="Erro ao carregar painel" description={error} />;
   }
 
   return (
-    <div className={styles.wrapper}>
-      <AdminSidebar onLogout={handleLogout} />
-      <div className={styles.main}>
-        <AdminTopbar />
-        <AdminContent />
+    <Container className="py-4">
+      <div className="mb-4">
+        <h1 className="h4">Dashboard</h1>
+        <p className="text-muted">Visão geral do Guardian e seus dados principais.</p>
       </div>
-    </div>
+
+      <AdminStatsCards totalTechniques={techniqueCount} activeUsers={userCount} categories={categoryCount} />
+
+      <Card className="mt-4 border-0 shadow-sm">
+        <Card.Body>
+          <h2 className="h5 mb-3">Atividade rápida</h2>
+          <p className="text-muted mb-0">
+            Use as seções de Técnicas e Usuários para manter o catálogo atualizado e o acesso do time sob controle.
+          </p>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

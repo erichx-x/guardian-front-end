@@ -1,108 +1,85 @@
-"use client";
+'use client';
 
-import { Suspense, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import Link from "next/link";
-import techniquesData from "../../../data/techniques.json";
-import SearchForm from "../../components/SearchForm";
-
-function ResultContent() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
-
-  const results = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    if (term.length < 2) return [];
-
-    const scoredTechniques = techniquesData.techniques.map((item) => {
-      let score = 0;
-      const title = (item.technique || "").toLowerCase();
-      const desc = (item.description || "").toLowerCase();
-      const cat = (item.category || "").toLowerCase();
-
-      // Similar scoring behavior mapping matching logic
-      if (title.includes(term)) score += 100;
-      if (cat.includes(term)) score += 80;
-      if (desc.includes(term)) score += 50;
-
-      return { item, score };
-    });
-
-    return scoredTechniques
-      .filter((t) => t.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .map((t) => t.item);
-  }, [query]);
-
-  return (
-    <Container className="py-4">
-      {/* Campo de Busca independent component */}
-      <Card className="mb-4 shadow-sm border-0">
-        <Card.Body className="p-sm-3 p-2">
-          <SearchForm />
-        </Card.Body>
-      </Card>
-
-      <h4 className="mb-4 fw-bold" style={{ color: "#2d3748" }}>
-        Resultado de {query}
-      </h4>
-
-      {results.length > 0 ? (
-        <Row className="g-4">
-          {results.map((tech, idx) => (
-            <Col xs={12} md={6} lg={4} key={idx}>
-              <Card className="h-100 shadow-sm border-0" style={{ borderRadius: "0.5rem" }}>
-                <Card.Body className="d-flex flex-column p-4">
-                  <h4 className="fw-bold mb-1" style={{ color: "#212529", fontSize: "1.25rem" }}>
-                    {tech.technique}
-                  </h4>
-                  <h6 className="text-secondary mb-3">{tech.category}</h6>
-                  
-                  <p 
-                    className="text-secondary mb-4" 
-                    style={{ 
-                      lineHeight: "1.6",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden"
-                    }}
-                  >
-                    {tech.description || "Descrição não disponível."}
-                  </p>
-
-                  <div className="mt-auto">
-                    <Link 
-                      href={`/detail?name=${encodeURIComponent(tech.technique)}`}
-                      className="text-decoration-none"
-                      style={{ color: "#0d6efd", fontWeight: "500" }}
-                    >
-                      Ver detalhes
-                    </Link>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      ) : (
-        <Card className="shadow-sm border-0">
-          <Card.Body className="p-4 text-center text-muted">
-            <p className="mb-0 fs-5">Nenhuma técnica encontrada para &quot;{query}&quot;.</p>
-          </Card.Body>
-        </Card>
-      )}
-    </Container>
-  );
-}
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import PublicLayout from '@/layouts/PublicLayout';
+import SearchBar from '@/components/SearchBar';
+import TechniqueCard from '@/components/TechniqueCard';
+import EmptyState from '@/components/EmptyState';
+import Pagination from '@/components/Pagination';
+import { useSearchResults } from '@/features/search/useSearchResults';
+import { CATEGORIES, PAGE_SIZE_PUBLIC } from '@/utils/constants';
 
 export default function ResultPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const query = searchParams.get('q') || '';
+  const category = searchParams.get('category') || '';
+  const [page, setPage] = useState(1);
+  const { loading, error, results, total } = useSearchResults(query, {
+    category,
+    page,
+    limit: PAGE_SIZE_PUBLIC,
+  });
+
+  useEffect(() => {
+    setPage(1);
+  }, [query, category]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE_PUBLIC));
+  const pageTitle = query ? `Resultados para “${query}”` : category ? `Categoria: ${category}` : 'Todas as técnicas';
+
   return (
-    <main style={{ backgroundColor: "#fbfcfd", minHeight: "calc(100vh - 62px)" }}>
-      <Suspense fallback={<Container className="py-4 text-center text-muted">Carregando...</Container>}>
-        <ResultContent />
-      </Suspense>
-    </main>
+    <PublicLayout>
+      <main className="py-5">
+        <Container>
+          <div className="mb-4">
+            <SearchBar />
+          </div>
+
+          <div className="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3 mb-4">
+            <div>
+              <h1 className="h4 mb-2">{pageTitle}</h1>
+              <p className="text-muted mb-0">{total} técnica(s) encontrada(s).</p>
+            </div>
+            <div className="d-flex flex-wrap gap-2">
+              <Button variant={category === '' ? 'primary' : 'outline-primary'} size="sm" onClick={() => router.push('/result')}>
+                Todas
+              </Button>
+              {CATEGORIES.map((item) => (
+                <Button
+                  key={item}
+                  variant={item === category ? 'primary' : 'outline-primary'}
+                  size="sm"
+                  onClick={() => router.push(`/result?category=${encodeURIComponent(item)}`)}
+                >
+                  {item}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {loading ? (
+            <EmptyState title="Carregando resultados..." description="Aguarde enquanto buscamos as técnicas." />
+          ) : error ? (
+            <EmptyState title="Ocorreu um erro" description={error} />
+          ) : results.length === 0 ? (
+            <EmptyState title="Nenhuma técnica encontrada" description="Tente outro termo de busca ou categoria." />
+          ) : (
+            <>
+              <Row className="g-4">
+                {results.map((technique) => (
+                  <Col xs={12} md={6} lg={4} key={technique.id}>
+                    <TechniqueCard technique={technique} />
+                  </Col>
+                ))}
+              </Row>
+              <Pagination currentPage={page} totalPages={totalPages} onChange={setPage} />
+            </>
+          )}
+        </Container>
+      </main>
+    </PublicLayout>
   );
 }

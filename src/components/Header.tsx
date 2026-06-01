@@ -1,25 +1,41 @@
-"use client";
+'use client';
 
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/result?q=', label: 'Buscar' },
+  { href: '/login', label: 'Login' },
+  { href: '/admin', label: 'Admin' },
+];
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header>
       <Navbar bg="primary" expand="lg" data-bs-theme="dark" className="shadow-sm">
         <Container>
-          <Navbar.Brand href="/" className="d-flex align-items-center gap-2 fw-bold text-white fs-4">
+          <Navbar.Brand as={Link} href="/" className="fw-bold text-white">
             Guardian
-            <div className="d-flex align-items-center">
-              <Image
-                src="/logo-192x192.png"
-                alt="Guardian Logo"
-                width={32}
-                height={32}
-              />
-            </div>
           </Navbar.Brand>
+          <Navbar.Toggle aria-controls="guardian-navbar" />
+          <Navbar.Collapse id="guardian-navbar">
+            <Nav className="ms-auto">
+              {navLinks.map((item) => (
+                <Nav.Link
+                  as={Link}
+                  key={item.href}
+                  href={item.href}
+                  className={pathname === item.href ? 'active' : ''}
+                >
+                  {item.label}
+                </Nav.Link>
+              ))}
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </header>
