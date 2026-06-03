@@ -12,7 +12,7 @@ export default function Home() {
       <main className="py-5">
         <Container>
           <Row className="align-items-center gy-4">
-            <Col lg={6}>
+            <Col lg={12}>
               <p className="text-uppercase text-primary fw-bold mb-2">Plataforma Guardian</p>
               <h1 className="display-6 fw-bold mb-4">A forma mais rápida de encontrar técnicas de Jiu-Jitsu.</h1>
               <p className="lead text-muted mb-4">
@@ -20,7 +20,7 @@ export default function Home() {
               </p>
               <SearchBar />
             </Col>
-            <Col lg={6}>
+            <Col lg={12}>
               <Card className="border-0 shadow-sm bg-soft p-4">
                 <h2 className="h5 mb-3">Categorias rápidas</h2>
                 <div className="d-flex flex-wrap gap-2">
