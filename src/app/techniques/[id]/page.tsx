@@ -5,13 +5,14 @@ import TechniqueDetail from '@/components/TechniqueDetail';
 import { Container } from 'react-bootstrap';
 
 type Params = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function TechniqueDetailPage({ params }: Params) {
-  const technique = await getTechniqueById(params.id);
+  const { id } = await params;
+  const technique = await getTechniqueById(id);
 
   if (!technique) {
     notFound();
